@@ -1,7 +1,6 @@
 import numpy as np
 import librosa
 import scipy
-from python_speech_features import mfcc
 class FeaturesExtractor:
     def __init__(self):
         pass
@@ -23,23 +22,15 @@ class FeaturesExtractor:
 
     def extract_features(self, path):
         y, sr = librosa.load(path)
-        mfcc_feature = librosa.feature.mfcc(# The audio signal from which to compute features.
-                            y=y,
-                            # The samplerate of the signal we are working with.
+        mfcc_feature = librosa.feature.mfcc(y=y,
                             sr=sr)
         stats = self.describe_mfcc(mfcc_feature)
         return stats
     
     def extract_raw_features(self, path):
         y, sr = librosa.load(path)
-        mfcc_feature = mfcc(
+        mfcc_feature = librosa.feature.mfcc(
                             y,
-                            sr,
-                            winlen       = 0.05,
-                            winstep      = 0.01,
-                            numcep       = 13,
-                            nfilt        = 30,
-                            nfft         = 1200,
-                            appendEnergy = True)
+                            sr)
     
         return mfcc_feature

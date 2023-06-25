@@ -1,20 +1,21 @@
 import pickle
-from .FeatureExtractor import FeaturesExtractor
+from logic.FeatureExtractor import FeaturesExtractor
 import numpy as np
 from tqdm import tqdm
-from .Teacher import Teacher
+from logic.Teacher import Teacher
 from sklearn.neighbors import KNeighborsClassifier
 import os
 class Identifier:
     def __init__(self, pg):
-        self.knn_model: KNeighborsClassifier = pickle.load(open(pg, 'rb'))
+        self.model: KNeighborsClassifier = pickle.load(open(pg, 'rb'))
         self.fe = FeaturesExtractor()
 
 
     def recognize_gender(self, path):
         feature = np.array(self.fe.extract_features(path)).reshape(1,-1)
-        prediction = self.knn_model.predict(feature)
-        return prediction[0]
+        prediction = self.model.predict(feature)
+        if prediction[0]==0: return "This is man"
+        else: return "This is woman"
     def train_dataset_identification(self, path_names, path_files):
         file = open(path_names, 'r')
         names = [line.split('\t')[0] for line in file]

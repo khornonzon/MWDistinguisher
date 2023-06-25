@@ -1,7 +1,6 @@
 import numpy as np
-import numpy as np
 from tqdm import tqdm
-from FeatureExtractor import FeaturesExtractor
+from logic.FeatureExtractor import FeaturesExtractor
 class AudioDataset:
     def __init__(self):
         self.train_data = []
